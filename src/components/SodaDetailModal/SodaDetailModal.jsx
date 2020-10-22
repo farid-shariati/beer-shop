@@ -59,7 +59,6 @@ const SodaDetailModal = ({ soda, ...props }) => {
   const deleteHandler = (id) => {
     let tempItems = favorites.filter((cart) => cart.id !== id)
     setFavorites(tempItems)
-    enqueueSnackbar('item deleted from your favorites');
     saveItmes('favorites', tempItems);
   }
   const addToFavotites = () => {
