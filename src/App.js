@@ -23,6 +23,7 @@ const RootApp = () => {
     const favorites = getItems('favorites', 30);
     setCart(cart);
     setFavorites(favorites);
+    // eslint-disable-next-line
   }, []);
 
   return (
