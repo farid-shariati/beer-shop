@@ -20,9 +20,9 @@ const TabMenu = ({setWithPizza, setWithSteak, setSodas}) => {
   return (
     <Paper className={classes.root}>
       <Tabs value={value} onChange={handleChange} indicatorColor="primary" textColor="primary" centered>
-        <Tab label="Soda with pizza" onClick={setWithPizza}/>
-        <Tab label="Soda with steak" onClick={setWithSteak}/>
-        <Tab label="Soda" onClick={setSodas}/>
+        <Tab label="Beer with pizza" onClick={setWithPizza}/>
+        <Tab label="Beer with steak" onClick={setWithSteak}/>
+        <Tab label="Beer" onClick={setSodas}/>
       </Tabs>
     </Paper>
   );

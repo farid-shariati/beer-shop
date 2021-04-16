@@ -58,7 +58,7 @@ const Navbar = () => {
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             <Link to="/" className={classes.link}>
-              Soda Shop
+              Beer Shop
             </Link>
           </Typography>
           <Box>
