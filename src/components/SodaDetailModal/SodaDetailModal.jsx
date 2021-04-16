@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
-import { Box, CardMedia, IconButton, Typography } from '@material-ui/core';
+import { Box, CardMedia, CircularProgress, IconButton, Typography } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import StarBorderOutlinedIcon from '@material-ui/icons/StarBorderOutlined';
 import { useSingleSoda } from 'hooks';
@@ -12,7 +12,6 @@ import { cartItemsState, favoriteItemsState } from 'atoms';
 import StarIcon from '@material-ui/icons/Star';
 import { saveItmes } from 'utils';
 import { v4 as uuidv4 } from 'uuid';
-
 
 const useStyles = makeStyles((theme) => ({
   modal: {},
@@ -44,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SodaDetailModal = ({ soda, ...props }) => {
   const [favorites, setFavorites] = useRecoilState(favoriteItemsState);
-  const { data } = useSingleSoda(soda.id);
+  const { data, isLoading } = useSingleSoda(soda.id);
   const existsInFavorites = () => {
     return (
       favorites.findIndex((item) => {
@@ -57,32 +56,32 @@ const SodaDetailModal = ({ soda, ...props }) => {
   const { enqueueSnackbar } = useSnackbar();
   const setCartItems = useSetRecoilState(cartItemsState);
   const deleteHandler = (id) => {
-    let tempItems = favorites.filter((cart) => cart.id !== id)
-    setFavorites(tempItems)
+    let tempItems = favorites.filter((cart) => cart.id !== id);
+    setFavorites(tempItems);
     saveItmes('favorites', tempItems);
-  }
+  };
   const addToFavotites = () => {
-    if(!existsInFavorites()){
-    setFavorites((oldcartItems) => {
-      const newItem = [
-        ...oldcartItems,
-        {
-          id :soda.id,
-          name: soda.name,
-          image_url: soda.image_url,
-          description: soda.description,
-          srm: soda.srm,
-        },
-      ];
+    if (!existsInFavorites()) {
+      setFavorites((oldcartItems) => {
+        const newItem = [
+          ...oldcartItems,
+          {
+            id: soda.id,
+            name: soda.name,
+            image_url: soda.image_url,
+            description: soda.description,
+            srm: soda.srm,
+          },
+        ];
 
-      saveItmes('favorites', newItem);
+        saveItmes('favorites', newItem);
 
-      return newItem;
-    });
-    enqueueSnackbar('item added to your favorite items')}
-    else{
-      deleteHandler(soda.id)
-      enqueueSnackbar('item temoved from your favorite items')
+        return newItem;
+      });
+      enqueueSnackbar('item added to your favorite items');
+    } else {
+      deleteHandler(soda.id);
+      enqueueSnackbar('item temoved from your favorite items');
     }
   };
   const addToCart = () => {
@@ -106,20 +105,24 @@ const SodaDetailModal = ({ soda, ...props }) => {
       {...props}
     >
       <DialogContent>
-        <Box className={classes.imgBox}>
-          <CardMedia image={sodaItem?.image_url} className={classes?.sodaImage}></CardMedia>
-        </Box>
-        <Typography variant="h5">{sodaItem?.name}</Typography>
-        <Typography variant="body">{sodaItem?.description}</Typography>
-        <Typography variant="h6">{sodaItem?.srm}$</Typography>
-        <Box className={classes.icons}>
-          <IconButton onClick={addToCart}>
-            <ShoppingCartIcon />
-          </IconButton>
-          <IconButton onClick={addToFavotites}>
-          {existsInFavorites() ? <StarIcon /> : <StarBorderOutlinedIcon />}
-          </IconButton>
-        </Box>
+        {isLoading ? (
+          <CircularProgress />
+        ) : (
+          <>
+            <Box className={classes.imgBox}>
+              <CardMedia image={sodaItem?.image_url} className={classes?.sodaImage}></CardMedia>
+            </Box>
+            <Typography variant="h5">{sodaItem?.name}</Typography>
+            <Typography variant="body">{sodaItem?.description}</Typography>
+            <Typography variant="h6">{sodaItem?.srm}$</Typography>
+            <Box className={classes.icons}>
+              <IconButton onClick={addToCart}>
+                <ShoppingCartIcon />
+              </IconButton>
+              <IconButton onClick={addToFavotites}>{existsInFavorites() ? <StarIcon /> : <StarBorderOutlinedIcon />}</IconButton>
+            </Box>
+          </>
+        )}
       </DialogContent>
     </Dialog>
   );
