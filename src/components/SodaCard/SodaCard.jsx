@@ -118,7 +118,7 @@ const SodaCard = ({ openModal, name, image, description, srm, id }) => {
     <Card className={classes.root}>
       <CardActionArea onClick={openModal} className={classes.cardAction}>
         <Box className={classes.img}>
-        <CardMedia className={classes.media} image={image} />
+        <CardMedia className={classes.media} image={image ? image : "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png"} />
         </Box>
         <CardContent>
           <Typography gutterBottom component="h6" className={classes.nameText}>
