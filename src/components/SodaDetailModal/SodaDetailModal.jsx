@@ -110,7 +110,14 @@ const SodaDetailModal = ({ soda, ...props }) => {
         ) : (
           <>
             <Box className={classes.imgBox}>
-              <CardMedia image={sodaItem?.image_url} className={classes?.sodaImage}></CardMedia>
+              <CardMedia
+                image={
+                  sodaItem?.image_url
+                    ? sodaItem?.image_url
+                    : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png'
+                }
+                className={classes?.sodaImage}
+              ></CardMedia>
             </Box>
             <Typography variant="h5">{sodaItem?.name}</Typography>
             <Typography variant="body">{sodaItem?.description}</Typography>
