@@ -44,7 +44,7 @@ const Sodas = () => {
   if (isLoading) return <p>loading...</p>;
   return (
     <Grid container spacing={2} className={classes.root}>
-      {getSodas().map((soda) => (
+      {sodas ? getSodas().map((soda) => (
         <Grid item md={4} lg={3} sm={12} key={soda.id}>
           <SodaCard
             openModal={() => openModal(soda)}
@@ -55,7 +55,7 @@ const Sodas = () => {
             srm={soda.srm}
           />
         </Grid>
-      ))}
+      )) : <p>there is something wrong with api :( sorry come back later</p>}
       {modalOpen !== null && <SodaDetailModal open={true} soda={modalOpen} onClose={() => setModalOpen(null)} />}
     </Grid>
   );
